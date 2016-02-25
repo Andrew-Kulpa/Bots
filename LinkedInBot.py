@@ -1,4 +1,9 @@
 #do: pip install BeautifulSoup4 and Selenium
+#Typical LinkedIn Bot that results in increased views based on outgoing job/profile views.
+#Clearly, morals are always a dilemma in this situation on if someone should use this.
+#I do not recommend this unless extremely desperate. Views obviously will fall to normal 
+#levels once the usage is discontinued. Also, I believe bot checks will be run on your account
+#following prolonged usage *please see your doctor if ----*
 
 import argparse, os, time #Sets up methods based around arguments passed through cmd, usage of OS, and time
 import urllib.parse, random, sys #allows parsing of urls and usage of random library
@@ -6,7 +11,7 @@ from selenium import webdriver #allows usage of a webdriver through Selenium
 from selenium.webdriver.common.keys import Keys 
 from bs4 import BeautifulSoup
 
-def getPeopleLinks(page):
+def getPeopleLinks(page): #pulls all links on the current page that link to someones profile --> links array; returns
 	links = []
 	for link in page.find_all('a'):
 		url = link.get('href')
@@ -14,7 +19,7 @@ def getPeopleLinks(page):
 			if 'profile/view?id=' in url:
 				links.append(url)
 	return links
-def getJobLinks(page):
+def getJobLinks(page): #pulls all links leading to jobs on the current page --> links array; returns them
 	links = []
 	for link in page.find_all('a'):
 		url = linkl.get('href')
@@ -23,12 +28,12 @@ def getJobLinks(page):
 				links.append(url)
 	return links
 
-def getID(url):
+def getID(url): #parses url for the id number based on a url provided.
 	pUrl = urllib.parse.urlparse(url)
 	return urllib.parse.parse_qs(pUrl.query)['id'][0]
 
-def ViewBot(browser):
-	visited = {} 
+def ViewBot(browser): #browser is defined in main(), such as Firefox or IE
+	visited = {} #Defines a set literal variable for all visited pages
 	pList = []
 	count = 0
 	while True:
